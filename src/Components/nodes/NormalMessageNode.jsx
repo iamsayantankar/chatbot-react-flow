@@ -1,12 +1,13 @@
 import { Handle, Position } from "reactflow";
 import { BsChatText } from "react-icons/bs";
 // Define a Node component that takes a data prop
-const Node = ({ data }) => {
+const Node = ( { data } ) =>
+{
   return (
     <div>
-      {/* Header section of the node */}
+      {/* Header section of the node */ }
       <div
-        style={{
+        style={ {
           backgroundColor: "#b2f0e3",
           borderTopLeftRadius: 5,
           borderTopRightRadius: 5,
@@ -20,47 +21,47 @@ const Node = ({ data }) => {
           justifyContent: "space-between",
           width: 275,
           boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
-        }}
+        } }
       >
-        {/* Container for icon and heading */}
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Container for icon and heading */ }
+        <div style={ { display: "flex", alignItems: "center" } }>
           <BsChatText
-            style={{ fontSize: 13, paddingRight: 7, paddingTop: 5 }}
+            style={ { fontSize: 13, paddingRight: 7, paddingTop: 5 } }
           />
-          {data.heading} {/* Display heading from data prop */}
+          { data.heading } {/* Display heading from data prop */ }
         </div>
-        <div style={{ paddingRight: 15 }}>
-          <img src="whatsapp.svg" alt="whatsapp icon" height={15} />{" "}
-          {/* WhatsApp icon */}
+        <div style={ { paddingRight: 15 } }>
+          <img src="whatsapp.svg" alt="whatsapp icon" height={ 15 } />{ " " }
+          {/* WhatsApp icon */ }
         </div>
       </div>
-      {/* Content section of the node */}
+      {/* Content section of the node */ }
       <div
-        style={{
+        style={ {
           padding: 15,
           borderBottomLeftRadius: 5,
           borderBottomRightRadius: 5,
           backgroundColor: "white",
           boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
-        }}
+        } }
       >
         <div
-          style={{
+          style={ {
             color: "black",
-          }}
+          } }
         >
-          {data.label} {/* Display label from data prop */}
+          { data.label } {/* Display label from data prop */ }
         </div>
       </div>
-      
-      {/* Source handle for connections (only for initial message) */}
-      {data.label === "{{dynamic}}" && (
-        <Handle type="source" position={Position.Right} id="source" />
-      )}
-      {/* Target handle for connections */}
-      {data.label !== "{{dynamic}}" && (
-        <Handle type="target" position={Position.Left} id="target" />
-      )}
+
+      {/* Source handle for connections (only for initial message) */ }
+      { data.label === "{{dynamic}}" && (
+        <Handle type="source" position={ Position.Right } id="source" />
+      ) }
+      {/* Target handle for connections */ }
+      { data.label !== "{{dynamic}}" && (
+        <Handle type="target" position={ Position.Left } id="target" />
+      ) }
     </div>
   );
 };

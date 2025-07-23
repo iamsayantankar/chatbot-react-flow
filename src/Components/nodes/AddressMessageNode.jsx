@@ -1,8 +1,8 @@
-import { Handle, Position } from "reactflow";
+import React from 'react';
+import { Handle, Position } from 'reactflow';
 import { BsChatText } from "react-icons/bs";
 
-const ButtonReplyNode = ( { data } ) =>
-{
+function AddressMessageNode({ data }) {
   return (
     <div>
       <div
@@ -26,7 +26,7 @@ const ButtonReplyNode = ( { data } ) =>
           <BsChatText
             style={ { fontSize: 13, paddingRight: 7, paddingTop: 5 } }
           />
-          { data.heading }
+          Address Message
         </div>
         <div style={ { paddingRight: 15 } }>
           <img src="whatsapp.svg" alt="whatsapp icon" height={ 15 } />
@@ -46,36 +46,25 @@ const ButtonReplyNode = ( { data } ) =>
             color: "black",
           } }
         >
-          { data.label }
-        </div>
-        { data.buttons &&
-          data.buttons.map( ( button, i ) => (
-            <div
-              key={ i }
-              style={ {
-                border: "1px solid #ddd",
-                borderRadius: 5,
-                padding: 8,
-                marginTop: 5,
-                textAlign: "center",
-                backgroundColor: "#1DBA0EFF",
-                position: "relative", // Add position relative for absolute positioning of handle
-              } }
-            >
-              { button.text }
-              <Handle
-                type="source"
-                position={Position.Right}
-                id={`button-${i}`}
-                style={{ background: '#555', right: -5, top: '50%', transform: 'translateY(-50%)' }}
-              />
+          <div>Country: {data.country}</div>
+          {data.saved_addresses && data.saved_addresses.map((addr, index) => (
+            <div key={index} style={{ marginTop: '10px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
+              <div>Name: {addr.value.name}</div>
+              <div>Phone: {addr.value.phone_number}</div>
+              <div>Pincode: {addr.value.in_pin_code}</div>
+              <div>Floor: {addr.value.floor_number}</div>
+              <div>Building: {addr.value.building_name}</div>
+              <div>Address: {addr.value.address}</div>
+              <div>Landmark: {addr.value.landmark_area}</div>
+              <div>City: {addr.value.city}</div>
             </div>
-          ) ) }
-        <div style={{color: '#aaa', fontSize: 12, marginTop: 10}}>{data.footer}</div>
+          ))}
+        </div>
       </div>
-      <Handle type="target" position={Position.Left} id="target" />
+      <Handle type="target" position={Position.Left} />
+      <Handle type="source" position={Position.Right} />
     </div>
   );
-};
+}
 
-export default ButtonReplyNode;
+export default AddressMessageNode;

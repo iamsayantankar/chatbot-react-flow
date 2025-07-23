@@ -14,8 +14,9 @@ const imageWidth = 1024;
 const imageHeight = 768;
 
 function DownloadButton() {
-  const { getNodes } = useReactFlow();
-  const onClick = () => {
+  const { getNodes, getEdges } = useReactFlow();
+
+  const downloadImageFlow = () => {
     // we calculate a transform for the nodes so that all nodes are visible
     // we then overwrite the transform of the `.react-flow__viewport` element
     // with the style option of the html-to-image library
@@ -34,10 +35,32 @@ function DownloadButton() {
     }).then(downloadImage);
   };
 
+  const downloadJsonFlow = () => {
+    const flow = {
+      nodes: getNodes(),
+      edges: getEdges(),
+    };
+    const jsonString = JSON.stringify(flow, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "reactflow.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
-    <button className="download-btn" onClick={onClick}>
+    <Panel position="top-left">
+      <button className="download-btn" onClick={downloadImageFlow}>
         Download Image
       </button>
+      <button className="download-btn" onClick={downloadJsonFlow} style={{ marginLeft: '10px' }}>
+        Download JSON
+      </button>
+    </Panel>
   );
 }
 
