@@ -1,4 +1,6 @@
 import { BsChatText } from "react-icons/bs";
+import { AiOutlineApi } from "react-icons/ai";
+
 const Sidebar = () =>
 {
   // Function to handle the drag start event and set the drag data
@@ -91,6 +93,14 @@ const Sidebar = () =>
         >
           <BsChatText style={ { fontSize: "15px", margin: "5px" } } />
           Video Message
+        </div>
+        <div
+          className="appnode"
+          onDragStart={ ( event ) => onDragStart( event, "apiCall" ) }
+          draggable
+        >
+          <AiOutlineApi style={ { fontSize: "15px", margin: "5px" } } />
+          API Call
         </div>
 
       </aside>

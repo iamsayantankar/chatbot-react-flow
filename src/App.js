@@ -21,6 +21,7 @@ import ImageMessageNode from "./Components/nodes/ImageMessageNode";
 import AudioMessageNode from "./Components/nodes/AudioMessageNode";
 import VideoMessageNode from "./Components/nodes/VideoMessageNode";
 import AddressMessageNode from "./Components/nodes/AddressMessageNode";
+import ApiCallNode from "./Components/nodes/ApiCallNode";
 import "./index.css";
 import Topbar from "./Components/Topbar";
 import DownloadButton from "./Components/DownloadButton";
@@ -184,10 +185,9 @@ const App = () =>
             link: "",
           },
         };
-      } else if ( type === "videoMessage" )
-      {
+      } else if (type === "videoMessage") {
         newNode = {
-          id: `node_${ id }`,
+          id: `node_${id}`,
           type: "videoMessage",
           position,
           data: {
@@ -195,10 +195,9 @@ const App = () =>
             caption: "",
           },
         };
-      } else if ( type === "addressMessage" )
-      {
+      } else if (type === "addressMessage") {
         newNode = {
-          id: `node_${ id }`,
+          id: `node_${id}`,
           type: "addressMessage",
           position,
           data: {
@@ -220,8 +219,18 @@ const App = () =>
             ],
           },
         };
-      } else
-      {
+      } else if (type === "apiCall") {
+        newNode = {
+          id: `node_${id}`,
+          type: "apiCall",
+          position,
+          data: {
+            url: "",
+            method: "GET",
+            body: "",
+          },
+        };
+      } else {
         newNode = {
           id: `node_${ id }`,
           type: "node",
@@ -258,6 +267,7 @@ const App = () =>
       audioMessage: AudioMessageNode,
       videoMessage: VideoMessageNode,
       addressMessage: AddressMessageNode,
+      apiCall: ApiCallNode,
     } ),
     []
   );
@@ -387,35 +397,40 @@ const App = () =>
             type: 'audio',
             link: node.data.link,
           };
-        } else if ( node.type === 'videoMessage' )
-        {
-          acc[ node.id ] = {
-            type: 'video',
-            link: node.data.link,
-            caption: node.data.caption,
-          };
-        } else if ( node.type === 'addressMessage' )
-        {
-          acc[ node.id ] = {
-            name: 'address_message',
-            parameters: {
-              country: node.data.country,
-              saved_addresses: node.data.saved_addresses.map( addr => ( {
-                id: addr.id,
-                value: {
-                  name: addr.value.name,
-                  phone_number: addr.value.phone_number,
-                  in_pin_code: addr.value.in_pin_code,
-                  floor_number: addr.value.floor_number,
-                  building_name: addr.value.building_name,
-                  address: addr.value.address,
-                  landmark_area: addr.value.landmark_area,
-                  city: addr.value.city,
-                },
-              } ) ),
-            },
-          };
-        }
+        } else if (node.type === 'videoMessage') {
+            acc[node.id] = {
+              type: 'video',
+              link: node.data.link,
+              caption: node.data.caption,
+            };
+          } else if (node.type === 'addressMessage') {
+            acc[node.id] = {
+              name: 'address_message',
+              parameters: {
+                country: node.data.country,
+                saved_addresses: node.data.saved_addresses.map(addr => ({
+                  id: addr.id,
+                  value: {
+                    name: addr.value.name,
+                    phone_number: addr.value.phone_number,
+                    in_pin_code: addr.value.in_pin_code,
+                    floor_number: addr.value.floor_number,
+                    building_name: addr.value.building_name,
+                    address: addr.value.address,
+                    landmark_area: addr.value.landmark_area,
+                    city: addr.value.city,
+                  },
+                })),
+              },
+            };
+          } else if (node.type === 'apiCall') {
+            acc[node.id] = {
+              type: 'api_call',
+              url: node.data.url,
+              method: node.data.method,
+              body: node.data.body,
+            };
+          }
 
         return acc;
       }, {} );

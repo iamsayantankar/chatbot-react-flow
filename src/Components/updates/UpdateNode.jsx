@@ -37,6 +37,9 @@ const UpdateNode = ( {
   const [ savedAddressAddress, setSavedAddressAddress ] = useState( selectedNode.data.saved_addresses?.[ 0 ]?.value?.address );
   const [ savedAddressLandmarkArea, setSavedAddressLandmarkArea ] = useState( selectedNode.data.saved_addresses?.[ 0 ]?.value?.landmark_area );
   const [ savedAddressCity, setSavedAddressCity ] = useState( selectedNode.data.saved_addresses?.[ 0 ]?.value?.city );
+  const [ apiUrl, setApiUrl ] = useState( selectedNode.data.url );
+  const [ apiMethod, setApiMethod ] = useState( selectedNode.data.method );
+  const [ apiBody, setApiBody ] = useState( selectedNode.data.body );
   // const reactFlowInstance = useReactFlow();
   // console.log(reactFlowInstance.getNodes());
   let id = selectedNode.id;
@@ -70,6 +73,9 @@ const UpdateNode = ( {
     setSavedAddressAddress( selectedNode.data.saved_addresses?.[ 0 ]?.value?.address );
     setSavedAddressLandmarkArea( selectedNode.data.saved_addresses?.[ 0 ]?.value?.landmark_area );
     setSavedAddressCity( selectedNode.data.saved_addresses?.[ 0 ]?.value?.city );
+    setApiUrl( selectedNode.data.url );
+    setApiMethod( selectedNode.data.method );
+    setApiBody( selectedNode.data.body );
   }, [ id, selectedNode.data ] );
 
   // Update the node data in the nodes state whenever nodeName changes
@@ -156,12 +162,20 @@ const UpdateNode = ( {
               link: link,
               caption: caption,
             };
+          } else if ( node.type === "apiCall" )
+          {
+            node.data = {
+              ...node.data,
+              url: apiUrl,
+              method: apiMethod,
+              body: apiBody,
+            };
           }
         }
         return node;
       } )
     );
-  }, [ selectedNode, nodeName, buttons, footer, previewUrl, header, headerText, bodyText, footerText, displayText, url, latitude, longitude, locationName, address, link, caption, filename, country, savedAddressName, savedAddressPhoneNumber, savedAddressPincode, savedAddressFloorNumber, savedAddressBuildingName, savedAddressAddress, savedAddressLandmarkArea, savedAddressCity, setNodes ] );
+  }, [ selectedNode, nodeName, buttons, footer, previewUrl, header, headerText, bodyText, footerText, displayText, url, latitude, longitude, locationName, address, link, caption, filename, country, savedAddressName, savedAddressPhoneNumber, savedAddressPincode, savedAddressFloorNumber, savedAddressBuildingName, savedAddressAddress, savedAddressLandmarkArea, savedAddressCity, apiUrl, apiMethod, apiBody, setNodes ] );
 
   // Function to switch from the update sidebar to the main node content sidebar
   const mainSidebar = () =>
@@ -180,7 +194,7 @@ const UpdateNode = ( {
           >
             <GoArrowLeft />
           </span>
-          <h2 style={ { paddingLeft: 50, margin: 0, color: "#62646b" } }>{ selectedNode.type === "node" ? "Normal Message" : selectedNode.type === "buttonReply" ? "Button Reply Message" : selectedNode.type === "buttonUrlMessage" ? "Button URL Message" : selectedNode.type === "locationRequestMessage" ? "Location Request Message" : selectedNode.type === "locationMessage" ? "Location Message" : "Message" }</h2>
+          <h2 style={ { paddingLeft: 50, margin: 0, color: "#62646b" } }>{ selectedNode.type === "node" ? "Normal Message" : selectedNode.type === "buttonReply" ? "Button Reply Message" : selectedNode.type === "buttonUrlMessage" ? "Button URL Message" : selectedNode.type === "locationRequestMessage" ? "Location Request Message" : selectedNode.type === "locationMessage" ? "Location Message" : selectedNode.type === "apiCall" ? "API Call" : "Message" }</h2>
         </div>
       </div>
       <div style={ { width: `100%`, height: 2, background: "rgb(214, 212, 212)" } }></div>
@@ -495,6 +509,36 @@ const UpdateNode = ( {
               value={ savedAddressCity }
               onChange={ ( evt ) => setSavedAddressCity( evt.target.value ) }
               style={ { marginBottom: 5, borderRadius: 5, width: "100%" } }
+            />
+          </div>
+        ) }
+        { selectedNode.type === "apiCall" && (
+          <div>
+            <h3 style={ { marginTop: 0 } }>URL</h3>
+            <input
+              type="text"
+              value={ apiUrl }
+              onChange={ ( evt ) => setApiUrl( evt.target.value ) }
+              style={ { marginBottom: 5, borderRadius: 5, width: "100%" } }
+            />
+            <h3 style={ { marginTop: 10 } }>Method</h3>
+            <select
+              value={ apiMethod }
+              onChange={ ( evt ) => setApiMethod( evt.target.value ) }
+              style={ { marginBottom: 5, borderRadius: 5, width: "100%", padding: 5 } }
+            >
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+            <h3 style={ { marginTop: 10 } }>Body</h3>
+            <textarea
+              rows="4"
+              cols="25"
+              value={ apiBody }
+              onChange={ ( evt ) => setApiBody( evt.target.value ) }
+              style={ { marginBottom: 15, borderRadius: 5 } }
             />
           </div>
         ) }
