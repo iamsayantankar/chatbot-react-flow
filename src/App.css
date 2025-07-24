@@ -1,0 +1,12 @@
+.appflow {
+  display: flex;
+  flex-grow: 1;
+}
+
+.topbar {
+  background-color: #f3f3f3;
+  padding: 12px;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}

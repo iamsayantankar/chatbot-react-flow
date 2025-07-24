@@ -74,10 +74,10 @@ button:focus-visible {
   background: #fcfcfc;
   color: rgba(255, 255, 255, 0.87);
   background-color: #f3f3f3;
-  padding: 15px 10px;
-  display: flex;
+  padding: 2px 10px;
+  /* display: flex;
   justify-content: center;
-  /* border-bottom: 2px solid grey; */
+  align-items: center; */
   border: none;
 }
 
